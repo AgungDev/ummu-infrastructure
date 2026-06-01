@@ -1,498 +1,248 @@
-\# UMMU Infrastructure
-
-
+# UMMU Infrastructure
 
 Infrastructure repository for the UMMU University Microservices Ecosystem.
 
-
-
 This repository contains all infrastructure components used to run, monitor, secure, and observe the microservices architecture.
 
+---
 
-
-\---
-
-
-
-\## Overview
-
-
+## Overview
 
 The goal of this repository is to provide a centralized infrastructure layer for all services within the UMMU ecosystem.
 
-
-
 Current architecture:
 
-
-
 ```text
-
 Client
-
-&#x20;  │
-
-&#x20;  ▼
-
+   │
+   ▼
 API Gateway (Kong)
-
-&#x20;  │
-
-&#x20;  ├── Auth Service
-
-&#x20;  ├── Student Service
-
-&#x20;  ├── Dosen Service
-
-&#x20;  ├── Finance Service
-
-&#x20;  ├── Payment Service
-
-&#x20;  ├── Notification Service
-
-&#x20;  └── BAAK Service
-
+   │
+   ├── Auth Service
+   ├── Student Service
+   ├── Dosen Service
+   ├── Finance Service
+   ├── Payment Service
+   ├── Notification Service
+   └── BAAK Service
 ```
-
-
 
 Future architecture:
 
-
-
 ```text
-
-&#x20;                         Grafana
-
-&#x20;                             │
-
-&#x20;                             ▼
-
-&#x20;                        Prometheus
-
-
+                          Grafana
+                              │
+                              ▼
+                         Prometheus
 
 Client
-
-&#x20;  │
-
-&#x20;  ▼
-
+   │
+   ▼
 Kong Gateway
+   │
+   ├── Auth Service
+   ├── Student Service
+   ├── Dosen Service
+   ├── Finance Service
+   ├── Payment Service
+   ├── Notification Service
+   └── BAAK Service
 
-&#x20;  │
-
-&#x20;  ├── Auth Service
-
-&#x20;  ├── Student Service
-
-&#x20;  ├── Dosen Service
-
-&#x20;  ├── Finance Service
-
-&#x20;  ├── Payment Service
-
-&#x20;  ├── Notification Service
-
-&#x20;  └── BAAK Service
-
-
-
-&#x20;          │
-
-&#x20;          ▼
-
-&#x20;   OpenTelemetry
-
-&#x20;          │
-
-&#x20;          ▼
-
-&#x20;        Jaeger
-
+           │
+           ▼
+    OpenTelemetry
+           │
+           ▼
+         Jaeger
 ```
 
+---
 
-
-\---
-
-
-
-\## Repository Structure
-
-
+## Repository Structure
 
 ```text
-
 ummu-infrastructure/
-
 │
-
 ├── docker-compose.yml
-
 │
-
 ├── kong/
-
 │   ├── kong.yml
-
 │   └── certs/
-
 │
-
 ├── otel-collector/
-
 │   └── otel-collector.yml
-
 │
-
 ├── jaeger/
-
 │
-
 ├── prometheus/
-
 │   └── prometheus.yml
-
 │
-
 ├── grafana/
-
 │   └── dashboards/
-
 │
-
 └── README.md
-
 ```
 
+---
 
+## Technologies
 
-\---
+### API Gateway
 
-
-
-\## Technologies
-
-
-
-\### API Gateway
-
-
-
-\* Kong Gateway
-
-
+* Kong Gateway
 
 Responsibilities:
 
+* API Routing
+* Reverse Proxy
+* Authentication Layer
+* Rate Limiting
+* Request Transformation
+* Centralized Gateway Management
 
+---
 
-\* API Routing
+### Observability
 
-\* Reverse Proxy
-
-\* Authentication Layer
-
-\* Rate Limiting
-
-\* Request Transformation
-
-\* Centralized Gateway Management
-
-
-
-\---
-
-
-
-\### Observability
-
-
-
-\#### OpenTelemetry
-
-
+#### OpenTelemetry
 
 Used to collect telemetry data from services.
 
-
-
 Provides:
 
+* Tracing
+* Metrics
+* Logs
 
+---
 
-\* Tracing
-
-\* Metrics
-
-\* Logs
-
-
-
-\---
-
-
-
-\#### Jaeger
-
-
+#### Jaeger
 
 Used for distributed tracing.
 
-
-
 Example:
 
-
-
 ```text
-
 POST /api/v1/auth/login
 
-
-
 Client
-
-&#x20; │
-
-&#x20; ▼
-
+  │
+  ▼
 Kong Gateway
-
-&#x20; │
-
-&#x20; ▼
-
+  │
+  ▼
 Auth Service
-
-&#x20; │
-
-&#x20; ▼
-
+  │
+  ▼
 PostgreSQL
-
 ```
-
-
 
 Allows developers to inspect request flow across services.
 
+---
 
-
-\---
-
-
-
-\#### Prometheus
-
-
+#### Prometheus
 
 Used to collect metrics.
 
-
-
 Examples:
 
+* Request Count
+* Error Rate
+* CPU Usage
+* Memory Usage
+* Database Metrics
 
+---
 
-\* Request Count
-
-\* Error Rate
-
-\* CPU Usage
-
-\* Memory Usage
-
-\* Database Metrics
-
-
-
-\---
-
-
-
-\#### Grafana
-
-
+#### Grafana
 
 Used to visualize metrics and monitoring dashboards.
 
-
-
 Examples:
 
+* Traffic Monitoring
+* Service Health
+* Error Tracking
+* Infrastructure Monitoring
 
+---
 
-\* Traffic Monitoring
+## Development Roadmap
 
-\* Service Health
-
-\* Error Tracking
-
-\* Infrastructure Monitoring
-
-
-
-\---
-
-
-
-\## Development Roadmap
-
-
-
-\### Phase 1
-
-
+### Phase 1
 
 Infrastructure Foundation
 
+* [x] Repository Initialization
+* [ ] Docker Compose Setup
+* [ ] Kong Gateway Setup
+* [ ] Auth Service Integration
 
+---
 
-\* \[x] Repository Initialization
-
-\* \[ ] Docker Compose Setup
-
-\* \[ ] Kong Gateway Setup
-
-\* \[ ] Auth Service Integration
-
-
-
-\---
-
-
-
-\### Phase 2
-
-
+### Phase 2
 
 Observability
 
+* [ ] OpenTelemetry Collector
+* [ ] Jaeger Integration
+* [ ] Trace Visualization
 
+---
 
-\* \[ ] OpenTelemetry Collector
-
-\* \[ ] Jaeger Integration
-
-\* \[ ] Trace Visualization
-
-
-
-\---
-
-
-
-\### Phase 3
-
-
+### Phase 3
 
 Monitoring
 
+* [ ] Prometheus Setup
+* [ ] Grafana Setup
+* [ ] Metrics Dashboard
 
+---
 
-\* \[ ] Prometheus Setup
-
-\* \[ ] Grafana Setup
-
-\* \[ ] Metrics Dashboard
-
-
-
-\---
-
-
-
-\### Phase 4
-
-
+### Phase 4
 
 Production Readiness
 
+* [ ] HTTPS
+* [ ] SSL Certificates
+* [ ] Centralized Logging
+* [ ] CI/CD Pipeline
+* [ ] Kubernetes Migration
 
+---
 
-\* \[ ] HTTPS
+## Related Repositories
 
-\* \[ ] SSL Certificates
+### Services
 
-\* \[ ] Centralized Logging
+* ummu-auth-service
+* ummu-student-service
+* ummu-dosen-service
+* ummu-finance-service
+* ummu-payment-service
+* ummu-notification-service
+* ummu-baak-service
 
-\* \[ ] CI/CD Pipeline
+---
 
-\* \[ ] Kubernetes Migration
-
-
-
-\---
-
-
-
-\## Related Repositories
-
-
-
-\### Services
-
-
-
-\* ummu-auth-service
-
-\* ummu-student-service
-
-\* ummu-dosen-service
-
-\* ummu-finance-service
-
-\* ummu-payment-service
-
-\* ummu-notification-service
-
-\* ummu-baak-service
-
-
-
-\---
-
-
-
-\## Goals
-
-
+## Goals
 
 This repository is designed as a learning and production-oriented infrastructure environment to simulate real-world enterprise microservices architecture.
 
-
-
 The primary objective is to understand:
 
+* API Gateway Architecture
+* Distributed Systems
+* Observability
+* Monitoring
+* Tracing
+* Service Communication
+* Cloud Native Architecture
 
+---
 
-\* API Gateway Architecture
-
-\* Distributed Systems
-
-\* Observability
-
-\* Monitoring
-
-\* Tracing
-
-\* Service Communication
-
-\* Cloud Native Architecture
-
-
-
-\---
-
-
-
-\## License
-
-
+## License
 
 MIT License
-
-
-
