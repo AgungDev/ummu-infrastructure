@@ -1,0 +1,75 @@
+# Kong Configuration
+# This file configures Kong API Gateway for the UMMU ecosystem
+
+_format_version: "2.1"
+_transform: true
+
+# Global plugins
+plugins:
+  - name: opentelemetry
+    config:
+      endpoint: http://otel-collector:4317
+      resource_attributes:
+        service_name: kong-gateway
+
+# Services
+services:
+  - name: auth-service
+    url: http://auth-service:3001
+    routes:
+      - name: auth-login
+        paths:
+          - /api/v1/auth/login
+        methods:
+          - POST
+      - name: auth-register
+        paths:
+          - /api/v1/auth/register
+        methods:
+          - POST
+      - name: auth-verify
+        paths:
+          - /api/v1/auth/verify
+        methods:
+          - GET
+      - name: auth-refresh
+        paths:
+          - /api/v1/auth/refresh
+        methods:
+          - POST
+      - name: auth-logout
+        paths:
+          - /api/v1/auth/logout
+        methods:
+          - POST
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          hour: 1000
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+            - OPTIONS
+          allow_headers:
+            - Content-Type
+            - Authorization
+          expose_headers:
+            - X-Total-Count
+      - name: request-transformer
+        config:
+          add:
+            headers:
+              - X-Service-Name:auth-service
+      - name: opentelemetry
+        config:
+          endpoint: http://otel-collector:4317
+          resource_attributes:
+            service_name: auth-service
